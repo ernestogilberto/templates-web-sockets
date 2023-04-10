@@ -19,12 +19,17 @@ const hbs = create({
     layoutsDir: __dirname + '/views/layouts',
     defaultLayout: 'main.hbs',
     extname: '.hbs',
+    partialsDir: __dirname + '/views/partials',
 
     helpers: {
         toFixed: (value, precision) => {
             return value.toFixed(precision)
         }
     }
+})
+
+hbs.getPartials().then((partials) => {
+    console.log(partials)
 })
 
 const socketServer = new Server(httpServer)

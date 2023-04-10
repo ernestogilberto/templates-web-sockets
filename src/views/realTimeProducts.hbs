@@ -1,74 +1,7 @@
 <h1>Products View</h1>
-{{#if products}}
-    <div class="products-container">
-        <div class="products-header">
-            <p>Product</p>
-            <p>Description</p>
-            <p>Code</p>
-            <p>Price</p>
-            <p>Status</p>
-            <p>Stock</p>
-            <p>Category</p>
-            <p>Picture</p>
-        </div>
-        <div class="products">
-            {{#each products}}
-                <div class="product-item">
-                    <p>{{this.title}}</p>
-                    <p>{{this.description}}</p>
-                    <p>{{this.code}}</p>
-                    <p>$ {{toFixed this.price 2}}</p>
-                    {{#if this.status}}
-                        <img src="https://cdn-icons-png.flaticon.com/512/4436/4436481.png" alt="active">
-                    {{else}}
-                        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png" alt="inactive">
-                    {{/if}}
-                    <p>{{this.stock}}</p>
-                    <p>{{this.category}}</p>
-                    {{#if thumbnail}}
-                        <img src="{{thumbnail}}" class="product-img" alt="image of {{this.title}}">
-                    {{else}}
-                        <img src="https://cdn-icons-png.flaticon.com/512/3875/3875148.png" class="product-img" alt="missing image of {{this.title}}">
-                    {{/if}}
-                </div>
-            {{/each}}
-        </div>
-    </div>
-{{else}}
-    <div class="product-alert-container"><h2 class="product-alert">Products not found.</h2></div>
-{{/if}}
 
-<div class="form-container">
-    <h1>Enter Product</h1>
-    <form action="/realTimeProducts" method="POST">
-        <label for="title">Title: </label>
-        <input id="title" name="title">
-        <label for="description">Description: </label>
-        <input id="description" name="description">
-        <label for="code">Code: </label>
-        <input id="code" name="code">
-        <label for="price">Price: </label>
-        <input id="price" name="price">
-        <fieldset>
-            <legend>Status:</legend>
-           <div>
-               <input type="radio" id="active" name="status" checked value="true">
-               <label for="active">Active</label>
-           </div>
-            <div>
-                <input type="radio" id="inactive" name="status" value="false">
-                <label for="inactive">Inactive</label>
-            </div>
-        </fieldset>
-        <label for="stock">Stock: </label>
-        <input id="stock" name="stock">
-        <label for="category">Category: </label>
-        <input id="category" name="category">
-        <label for="thumbnail">Thumbnail: </label>
-        <input id="thumbnail" name="thumbnail">
-        <input type="submit" class="btn btn-submit">
-    </form>
-</div>
+{{> products-container}}
+
+{{> products-form}}
+
 <a class="btn btn-primary" href="/">To Products</a>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/index.js"></script>
