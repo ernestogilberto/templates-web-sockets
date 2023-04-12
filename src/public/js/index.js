@@ -1,9 +1,8 @@
 const socket = io()
 
-const form = document.getElementById('form')
-const input = document.getElementById('input')
+const form = document.querySelector('form')
 
-const handleSubmit = (e, form) => {
+form.addEventListener('submit', (e) => {
     e.preventDefault()
     const data = new FormData(form)
     const body = {}
@@ -13,6 +12,8 @@ const handleSubmit = (e, form) => {
 
     socket.emit('new-product', body)
     form.reset()
-}
+})
 
-form.addEventListener('submit', (e) => handleSubmit(e, form, '/api/products'))
+socket.on('products', (currentProducts) => {
+   window.location.reload()
+})

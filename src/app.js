@@ -6,7 +6,9 @@ import {router as cartsRouter} from './routes/carts.router.js'
 import {router as viewsRouter} from './routes/views.router.js'
 import {__dirname} from './utils.js'
 
+import {ProductManager} from './managers/productManager.js'
 
+const manager = new ProductManager(__dirname + '/db/products.json')
 
 const app = express()
 const PORT = 8080
@@ -28,10 +30,6 @@ const hbs = create({
     }
 })
 
-hbs.getPartials().then((partials) => {
-    console.log(partials)
-})
-
 const socketServer = new Server(httpServer)
 
 app.engine('.hbs', hbs.engine)
@@ -48,8 +46,9 @@ app.use('/', viewsRouter)
 
 socketServer.on('connection', (socket) => {
     console.log('New client connected')
-    socket.on('new-product', (data) => {
-        socketServer.emit('new-product', data)
-        console.log(data)
+    socket.on('new-product', async (data) => {
+        await manager.addProduct(data)
+        const {payload: products} = await manager.getProducts()
+        socketServer.emit('products', products)
     })
 })
