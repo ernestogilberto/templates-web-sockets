@@ -51,4 +51,9 @@ socketServer.on('connection', (socket) => {
         const {payload: products} = await manager.getProducts()
         socketServer.emit('products', products)
     })
+    socket.on('delete-product', async (id) => {
+        await manager.deleteById(id)
+        const {payload: products} = await manager.getProducts()
+        socketServer.emit('products', products)
+    })
 })
